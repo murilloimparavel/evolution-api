@@ -12,6 +12,10 @@ env:
   DATABASE_PROVIDER: postgresql
   DATABASE_CONNECTION_URI: postgresql://ci:ci@127.0.0.1:5432/ci
 
+concurrency:
+  group: pr-quality-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   check-lint-and-build:
     runs-on: ubuntu-latest
